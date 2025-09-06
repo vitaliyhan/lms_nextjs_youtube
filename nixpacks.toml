@@ -1,0 +1,45 @@
+[phases.setup]
+cmds = [
+  "apt-get update",
+  "apt-get install -y curl",
+  "curl -fsSL https://deb.nodesource.com/setup_20.x | bash -",
+  "apt-get install -y nodejs",
+  "corepack enable",
+  "corepack prepare pnpm@latest --activate"
+]
+
+[phases.install]
+cmds = [
+  "pnpm install --frozen-lockfile"
+]
+
+# Prisma generation phase (runs after install but before build)
+[phases.prisma]
+cmds = [
+  "pnpm prisma generate"
+]
+needs = ["install"]
+
+[phases.build]
+cmds = [
+  "pnpm run build"
+]
+needs = ["prisma"]
+
+[start]
+cmd = "pnpm start"
+
+[build.args]
+NODE_ENV = "production"
+
+[build.environment]
+NODE_OPTIONS = "--max_old_space_size=4096"
+
+# Optional: Include Prisma schema in cache if you want to cache generation
+[cache]
+directories = [
+  "/root/.cache/pnpm",
+  "/root/.npm",
+  ".next/cache",
+  "node_modules/.prisma"
+]
