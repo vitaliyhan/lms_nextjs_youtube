@@ -10,21 +10,28 @@ cmds = [
 
 [phases.install]
 cmds = [
-  "pnpm install --frozen-lockfile"
+  "pnpm install --frozen-lockfile --ignore-scripts"
 ]
 
-# Prisma generation phase (runs after install but before build)
-[phases.prisma]
+# Install Prisma CLI globally to avoid permission issues
+[phases.prisma-setup]
 cmds = [
-  "pnpm prisma generate"
+  "pnpm add -g prisma",
+  "pnpm install @prisma/client"
 ]
 needs = ["install"]
+
+[phases.prisma-generate]
+cmds = [
+  "prisma generate"
+]
+needs = ["prisma-setup"]
 
 [phases.build]
 cmds = [
   "pnpm run build"
 ]
-needs = ["prisma"]
+needs = ["prisma-generate"]
 
 [start]
 cmd = "pnpm start"
@@ -35,7 +42,6 @@ NODE_ENV = "production"
 [build.environment]
 NODE_OPTIONS = "--max_old_space_size=4096"
 
-# Optional: Include Prisma schema in cache if you want to cache generation
 [cache]
 directories = [
   "/root/.cache/pnpm",
