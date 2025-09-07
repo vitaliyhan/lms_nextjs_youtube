@@ -24,9 +24,6 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { authClient } from "@/lib/auth-client"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
 import { useSignOut } from "@/hooks/sign-out"
 
 interface iAppProps {
@@ -36,7 +33,6 @@ interface iAppProps {
 }
 
 export default function UserDrodown({ email, image, name }: iAppProps) {
-    const router = useRouter()
     const handlerSignOut = useSignOut()
 
     return (
