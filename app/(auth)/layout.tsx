@@ -10,10 +10,9 @@ function AuthLayout({ children }: { children: ReactNode }) {
         <div className='relative flex min-h-svh flex-col items-center justify-center'>
             <Link href='/' className={buttonVariants({ variant: 'outline', className: "absolute top-4 left-4" })}><ArrowLeft />Back</Link>
             <div className='flex w-full max-w-sm flex-col gap-6'>
-                <Link href='/' className='flex items-baseline gap-4 self-center text-4xl font-medium '>
-                    LMS
-                    <Image src={Logo} alt='logo' className=' w-30 dark:invert' />
-
+                <Link href='/' className='flex gap-4 items-center self-center text-4xl font-medium '>
+                    <Image src={Logo} alt='logo' className='size-9' />
+                    <span>LMS</span>
                 </Link>
                 {children}
 
