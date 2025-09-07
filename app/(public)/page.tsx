@@ -46,16 +46,6 @@ export default function Home() {
 
     const router = useRouter()
 
-    async function signOut() {
-        await authClient.signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    router.push("/");
-                }
-            }
-        })
-    }
-
     async function signIn() {
         router.push("/login");
     }
