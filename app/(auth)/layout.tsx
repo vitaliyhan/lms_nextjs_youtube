@@ -1,9 +1,9 @@
 import { buttonVariants } from '@/components/ui/button'
+import Logo from '@/components/ui/logo'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { ReactNode } from 'react'
-import Logo from '@/public/next.svg'
 
 function AuthLayout({ children }: { children: ReactNode }) {
     return (

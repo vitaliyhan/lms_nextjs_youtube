@@ -27,6 +27,7 @@ import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { useSignOut } from "@/hooks/sign-out"
 
 interface iAppProps {
     name: string;
@@ -36,28 +37,15 @@ interface iAppProps {
 
 export default function UserDrodown({ email, image, name }: iAppProps) {
     const router = useRouter()
-    async function signOut() {
-        await authClient.signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    router.push("/");
-                    toast.success("Signed out successfully")
-                },
-                onError: () => {
-                    toast.error(
-                        "An error occurred while signing out. Please try again."
-                    )
-                }
-            }
-        })
-    }
+    const handlerSignOut = useSignOut()
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
                     <Avatar>
                         <AvatarImage src={image} alt="Profile image" />
-                        <AvatarFallback>{name[0].toUpperCase()}</AvatarFallback>
+                        <AvatarFallback>{name.length > 0 ? name.charAt(0).toUpperCase() : email.charAt(0).toUpperCase()}</AvatarFallback>
                     </Avatar>
                     <ChevronDownIcon
                         size={16}
@@ -72,7 +60,6 @@ export default function UserDrodown({ email, image, name }: iAppProps) {
                         {name}
                     </span>
                     <span className="text-muted-foreground truncate text-xs font-normal">
-                        {email}
                         {email}
                     </span>
                 </DropdownMenuLabel>
@@ -100,7 +87,7 @@ export default function UserDrodown({ email, image, name }: iAppProps) {
 
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut}>
+                <DropdownMenuItem onClick={handlerSignOut}>
                     <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
                     <span>Logout</span>
                 </DropdownMenuItem>

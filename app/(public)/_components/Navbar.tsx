@@ -3,11 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import Logo from '@/public/next.svg'
 import { ThemeToggle } from '@/components/ui/themeToggle'
 import { authClient } from '@/lib/auth-client'
 import { buttonVariants } from '@/components/ui/button'
 import UserDrodown from './UserDropdown'
+import Logo from '@/components/ui/logo'
 
 const navigationItems = [
   {
