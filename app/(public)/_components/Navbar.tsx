@@ -48,7 +48,7 @@ export default function Navbar() {
             <ThemeToggle />
             {
               isPending ? null : session ? (
-                <UserDrodown />
+                <UserDrodown email={session.user.email} image={session.user.image || ""} name={session.user.name} />
               )
                 : (
                   <>

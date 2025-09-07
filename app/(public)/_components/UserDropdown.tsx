@@ -28,9 +28,13 @@ import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
+interface iAppProps {
+    name: string;
+    email: string;
+    image: string;
+}
 
-
-export default function UserDrodown() {
+export default function UserDrodown({ email, image, name }: iAppProps) {
     const router = useRouter()
     async function signOut() {
         await authClient.signOut({
@@ -38,6 +42,11 @@ export default function UserDrodown() {
                 onSuccess: () => {
                     router.push("/");
                     toast.success("Signed out successfully")
+                },
+                onError: () => {
+                    toast.error(
+                        "An error occurred while signing out. Please try again."
+                    )
                 }
             }
         })
@@ -47,8 +56,8 @@ export default function UserDrodown() {
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
                     <Avatar>
-                        <AvatarImage src="./avatar.jpg" alt="Profile image" />
-                        <AvatarFallback>KK</AvatarFallback>
+                        <AvatarImage src={image} alt="Profile image" />
+                        <AvatarFallback>{name[0].toUpperCase()}</AvatarFallback>
                     </Avatar>
                     <ChevronDownIcon
                         size={16}
@@ -60,10 +69,11 @@ export default function UserDrodown() {
             <DropdownMenuContent align="end" className="max-w-64">
                 <DropdownMenuLabel className="flex min-w-0 flex-col">
                     <span className="text-foreground truncate text-sm font-medium">
-                        Keith Kennedy
+                        {name}
                     </span>
                     <span className="text-muted-foreground truncate text-xs font-normal">
-                        k.kennedy@originui.com
+                        {email}
+                        {email}
                     </span>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />

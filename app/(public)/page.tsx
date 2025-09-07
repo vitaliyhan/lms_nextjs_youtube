@@ -1,12 +1,8 @@
-"use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import {  buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ThemeToggle } from "@/components/ui/themeToggle";
-import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface FeatureProps {
     title: string,
@@ -39,28 +35,6 @@ const features: FeatureProps[] = [
 ]
 
 export default function Home() {
-    const {
-        data: session,
-        isPending,
-    } = authClient.useSession()
-
-    const router = useRouter()
-
-    async function signIn() {
-        router.push("/login");
-    }
-
-    if (isPending) return (<></>)
-
-
-
-    //   return (
-    //     <div className="p-4">
-    //       <ThemeToggle />
-
-    //       {session ? <div><p>{session.user.name}</p><Button onClick={signOut}>Sign Out</Button></div> : <Button onClick={signIn}>Login</Button>}
-    //     </div>
-    //   );
 
     return (
         <>
@@ -78,7 +52,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-32">
                 {features.map((feature, index) => (
                     <Card key={index} className="hover:shadow-lg transition-shadow">
                         <CardHeader>
