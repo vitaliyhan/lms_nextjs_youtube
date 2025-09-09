@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import slugify from "slugify";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import RichTextEditor from "@/components/rich-text-editor/Editor";
 
 export default function CourseCreationPage() {
 
@@ -83,8 +84,8 @@ export default function CourseCreationPage() {
                                             <FormItem className="w-full">
                                                 <FormLabel>Slug</FormLabel>
                                                 <FormControl>
-                                                    <div className="flex gap-4"> 
-                                                        <Input placeholder="Slug" {...field} className="w-full"/>
+                                                    <div className="flex gap-4">
+                                                        <Input placeholder="Slug" {...field} className="w-full" />
                                                         <Button type="button" className="w-fit" onClick={() => {
                                                             const titleValue = form.getValues("title");
                                                             const slug = slugify(titleValue);
@@ -109,7 +110,9 @@ export default function CourseCreationPage() {
                                         <FormItem className="w-full">
                                             <FormLabel>Small Description</FormLabel>
                                             <FormControl>
-                                                <Textarea placeholder="Small Description" {...field} className="min-h-[120]" />
+                                                {/* <Textarea placeholder="Small Description" {...field} className="min-h-[120]" /> */}
+
+                                                <RichTextEditor />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
