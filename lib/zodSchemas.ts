@@ -1,4 +1,14 @@
-import {z} from "zod";
+import { z } from "zod";
+
+export const courseCategoies = [
+    "Web Development", "AI", "Data Science", "Mobile Development", "Design", "Marketing", "Finance", "Business", "Healthcare", "Music", "Teaching", "Academics",
+] as const;
+
+export const courseLevels = [
+    "Beginner", "Intermediate", "Advanced",
+] as const;
+
+export const courseStatus = ['Draft', 'Published', 'Archived'] as const;
 
 export const courseSchema = z.object({
     title: z.string()
@@ -22,11 +32,9 @@ export const courseSchema = z.object({
         .min(1, { error: "Duration must be at least 1" })
         .max(500, { error: "Duration cannot exceed 500" }),
 
-    level: z.enum(['Beginner', 'Intermediate', 'Advanced'], { error: "Level must be one of: Beginner, Intermediate, Advanced" }),
+    level: z.enum(courseLevels, { error: "Level must be one of: Beginner, Intermediate, Advanced" }),
 
-    category: z.string()
-        .min(3, { error: "Category must be at least 3 characters long" })
-        .max(100, { error: "Category cannot exceed 100 characters" }),
+    category: z.enum(courseCategoies, { error: "Category must be one of: " + courseCategoies.join(", ") }),
 
     smallDescription: z.string()
         .min(3, { error: "Small description must be at least 3 characters long" })
@@ -36,7 +44,7 @@ export const courseSchema = z.object({
         .min(3, { error: "Slug must be at least 3 characters long" })
         .max(100, { error: "Slug cannot exceed 100 characters" }),
 
-    status: z.enum(['Draft', 'Published', 'Archived'], { error: 'Status must be one of: Draft, Published, Archived' }),
+    status: z.enum(courseStatus, { error: 'Status must be one of: Draft, Published, Archived' }),
 });
 
 export type CourseSchemaType = z.infer<typeof courseSchema>;

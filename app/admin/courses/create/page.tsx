@@ -2,8 +2,8 @@
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { courseSchema, CourseSchemaType } from "@/lib/zodSchemas";
-import { ArrowLeft, SparkleIcon } from "lucide-react";
+import { courseCategoies, courseLevels, courseSchema, CourseSchemaType, courseStatus } from "@/lib/zodSchemas";
+import { ArrowLeft, Plus, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { Resolver, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import slugify from "slugify";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function CourseCreationPage() {
 
@@ -25,7 +26,7 @@ export default function CourseCreationPage() {
             price: 1,
             duration: 0,
             level: "Beginner",
-            category: "",
+            category: "Web Development",
             status: "Draft",
             slug: "",
             smallDescription: "",
@@ -82,17 +83,22 @@ export default function CourseCreationPage() {
                                             <FormItem className="w-full">
                                                 <FormLabel>Slug</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Slug" {...field} />
+                                                    <div className="flex gap-4"> 
+                                                        <Input placeholder="Slug" {...field} className="w-full"/>
+                                                        <Button type="button" className="w-fit" onClick={() => {
+                                                            const titleValue = form.getValues("title");
+                                                            const slug = slugify(titleValue);
+                                                            form.setValue("slug", slug, { shouldValidate: true })
+                                                        }}>
+                                                            Generate a Slug <SparkleIcon className="ml-1 size-6" />
+                                                        </Button>
+                                                    </div>
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )
                                     } />
-                                <Button type="button" className="w-fit" onClick={() => {
-                                    const titleValue = form.getValues("title");
-                                    const slug = slugify(titleValue);
-                                    form.setValue("slug", slug, { shouldValidate: true })
-                                }}>Generate a Slug <SparkleIcon className="ml-1 size-6" /></Button>
+
                             </div>
                             <FormField
                                 control={form.control}
@@ -139,10 +145,127 @@ export default function CourseCreationPage() {
                                         </FormItem>
                                     )
                                 } />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <FormField
+                                    control={form.control}
+                                    name="category"
+                                    render=
+                                    {
+                                        ({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>Category</FormLabel>
+
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue placeholder="Select a category" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {courseCategoies.map((category) => (
+                                                            <SelectItem key={category} value={category}>
+                                                                {category}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+
+                                                <FormMessage />
+                                            </FormItem>
+                                        )
+                                    } />
+                                <FormField
+                                    control={form.control}
+                                    name="level"
+                                    render=
+                                    {
+                                        ({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>Level</FormLabel>
+
+                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                    <FormControl>
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue placeholder="Select level" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {courseLevels.map((level) => (
+                                                            <SelectItem key={level} value={level}>
+                                                                {level}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+
+                                                <FormMessage />
+                                            </FormItem>
+                                        )
+                                    } />
+                                <FormField
+                                    control={form.control}
+                                    name="duration"
+                                    render=
+                                    {
+                                        ({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>Duration (hours)</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Duration" type="number" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )
+                                    } />
+                                <FormField
+                                    control={form.control}
+                                    name="price"
+                                    render=
+                                    {
+                                        ({ field }) => (
+                                            <FormItem className="w-full">
+                                                <FormLabel>Price</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Price" type="number" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )
+                                    } />
+                            </div>
+                            <FormField
+                                control={form.control}
+                                name="status"
+                                render=
+                                {
+                                    ({ field }) => (
+                                        <FormItem className="w-full">
+                                            <FormLabel>Status</FormLabel>
+
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="w-full">
+                                                        <SelectValue placeholder="Select status" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {courseStatus.map((status) => (
+                                                        <SelectItem key={status} value={status}>
+                                                            {status}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+
+                                            <FormMessage />
+                                        </FormItem>
+                                    )
+                                } />
+                            <Button>
+                                Create Course <Plus className="size-4" />
+                            </Button>
                         </form>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            
-                        </div>
+
                     </Form>
                 </CardContent>
             </Card>
