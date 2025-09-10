@@ -10,6 +10,7 @@ export default function RichTextEditor({ field }: { field: any }) {
         extensions: [StarterKit, TextAlign.configure({
             types: ['heading', "paragraph"]
         })],
+        immediatelyRender: false,
         editorProps: {
             attributes: {
                 class: "min-h-[300px] p-4 focus:outline-none focus:ring-0 prose prose-sm sm:prose lg:prose-lg xl:prose-xl dark:prose-invert !w-full !max-w-none"

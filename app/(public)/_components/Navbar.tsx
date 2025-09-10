@@ -48,7 +48,7 @@ export default function Navbar() {
             <ThemeToggle />
             {
               isPending ? null : session ? (
-                <UserDrodown email={session.user.email} image={session.user.image || ""} name={session.user.name} />
+                <UserDrodown email={session.user.email} image={session?.user.image ?? `https://avatar.vercel.sh/${session?.user.email}`} name={session?.user.name && session?.user.name.length > 0 ? session?.user.name : session?.user.email} />
               )
                 : (
                   <>
