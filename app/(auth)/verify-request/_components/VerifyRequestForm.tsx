@@ -27,7 +27,7 @@ export default function VerifyRequestForm() {
                         toast.success('Email verified successfully')
                         router.push("/")
                     },
-                    onError: (error) => {
+                    onError: () => {
                         toast.error('Error verifying Email/OTP')
                     }
                 }

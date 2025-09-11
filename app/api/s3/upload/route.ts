@@ -6,7 +6,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { S3 } from "@/lib/s3-client";
 import { v4 as uuidv4 } from 'uuid';
 
-const fileUloadSchema = z.object(
+const fileUploadSchema = z.object(
     {
         fileName: z.string().min(1, { message: "File name required" }),
         contentType: z.string().min(1, { message: "Content type required" }),
@@ -18,7 +18,7 @@ const fileUloadSchema = z.object(
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const validation = fileUloadSchema.safeParse(body)
+        const validation = fileUploadSchema.safeParse(body)
         if (!validation.success) {
             return NextResponse.json({ error: "Invalid Request Body" }, { status: 400 })
         }

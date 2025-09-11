@@ -137,7 +137,7 @@ export default function CourseCreationPage() {
                                 name="fileKey"
                                 render=
                                 {
-                                    ({ field }) => (
+                                    ({}) => (
                                         <FormItem className="w-full">
                                             <FormLabel>Thumbnail image</FormLabel>
                                             <FormControl>
