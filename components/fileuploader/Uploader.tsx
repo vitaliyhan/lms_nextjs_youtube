@@ -5,7 +5,7 @@ import { Card, CardContent } from '../ui/card'
 import { cn } from '@/lib/utils'
 import { RenderEmptyState, RenderErrorState } from './RenderState'
 import { toast } from 'sonner'
-import { uuidv4 } from 'zod'
+import { v4 as uuidv4 } from 'uuid';
 
 interface UploaderState {
     id: string | null
@@ -121,7 +121,7 @@ export default function Uploader() {
                 progress: 0,
                 objectUrl: URL.createObjectURL(file),
                 error: false,
-                id: uuidv4().toString(),
+                id: uuidv4(),
                 isDeleting: false,
                 fileType: "image"
             })
