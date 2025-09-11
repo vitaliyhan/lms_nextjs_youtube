@@ -6,7 +6,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { S3 } from "@/lib/s3-client";
 import { v4 as uuidv4 } from 'uuid';
 
-export const fileUloadSchema = z.object(
+const fileUloadSchema = z.object(
     {
         fileName: z.string().min(1, { message: "File name required" }),
         contentType: z.string().min(1, { message: "Content type required" }),
