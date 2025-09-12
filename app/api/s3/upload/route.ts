@@ -34,7 +34,7 @@ export async function POST(request: Request) {
             Key: unuqueKey
         })
 
-        const presignedUrl = getSignedUrl(S3, command, { expiresIn: 360 })
+        const presignedUrl = await getSignedUrl(S3, command, { expiresIn: 360 })
 
         const response = {
             presignedUrl,
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json(response)
 
-    } catch {
-        return NextResponse.json({ error: "Something went wrong" }, {status: 500})
+    } catch (error) {
+        return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
     }
 }
