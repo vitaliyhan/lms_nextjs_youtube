@@ -25,20 +25,23 @@ export async function POST(request: Request) {
 
         const { fileName, contentType, size } = validation.data
 
-        const unuqueKey = `${uuidv4()}-${fileName}`
+        // const fileExtension = fileName.split('.').pop();
+        // const uniqueKey = `${uuidv4()}.${fileExtension}`
+
+        const uniqueKey = `${uuidv4()}-${fileName}`
 
         const command = new PutObjectCommand({
             Bucket: env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES,
             ContentType: contentType,
             ContentLength: size,
-            Key: unuqueKey
+            Key: uniqueKey
         })
 
         const presignedUrl = await getSignedUrl(S3, command, { expiresIn: 360 })
 
         const response = {
             presignedUrl,
-            key: unuqueKey
+            key: uniqueKey
         }
 
         return NextResponse.json(response)
