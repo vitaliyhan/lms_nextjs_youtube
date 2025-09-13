@@ -36,8 +36,7 @@ export default function CourseCreationPage() {
     })
 
     function onSubmit(values: CourseSchemaType) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+
         console.log(values)
     }
 
@@ -111,7 +110,7 @@ export default function CourseCreationPage() {
                                         <FormItem className="w-full">
                                             <FormLabel>Small Description</FormLabel>
                                             <FormControl>
-                                                <RichTextEditor field={field} />
+                                                <Textarea placeholder="Description" {...field} className="min-h-[120]" />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -126,7 +125,7 @@ export default function CourseCreationPage() {
                                         <FormItem className="w-full">
                                             <FormLabel>Description</FormLabel>
                                             <FormControl>
-                                                <Textarea placeholder="Description" {...field} className="min-h-[120]" />
+                                                <RichTextEditor field={field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -137,12 +136,11 @@ export default function CourseCreationPage() {
                                 name="fileKey"
                                 render=
                                 {
-                                    ({}) => (
+                                    ({ field }) => (
                                         <FormItem className="w-full">
                                             <FormLabel>Thumbnail image</FormLabel>
                                             <FormControl>
-                                                {/* <Input placeholder="Thumbnail url" {...field} /> */}
-                                                <Uploader />
+                                                <Uploader onChange={field.onChange} value={field.value} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

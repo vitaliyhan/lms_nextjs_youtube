@@ -25,9 +25,6 @@ export async function POST(request: Request) {
 
         const { fileName, contentType, size } = validation.data
 
-        // const fileExtension = fileName.split('.').pop();
-        // const uniqueKey = `${uuidv4()}.${fileExtension}`
-
         const uniqueKey = `${uuidv4()}-${fileName}`
 
         const command = new PutObjectCommand({
