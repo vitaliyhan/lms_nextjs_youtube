@@ -1,12 +1,17 @@
 "use server"
 
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { ApiResonse } from "@/lib/types";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchemas";
+import { headers } from "next/headers";
 
 export async function CreateCourse(values: CourseSchemaType): Promise<ApiResonse> {
 
     try {
+        const session = await auth.api.getSession({ headers: await headers() })
+
+
         const validation = courseSchema.safeParse(values)
         if (!validation.success) {
             return {
@@ -19,7 +24,7 @@ export async function CreateCourse(values: CourseSchemaType): Promise<ApiResonse
             {
                 data: {
                     ...validation.data,
-                    userId: "fdgd"
+                    userId: session?.user.id as string,
                 }
             }
         )
@@ -30,7 +35,8 @@ export async function CreateCourse(values: CourseSchemaType): Promise<ApiResonse
             status: "success",
             message: "Course created successfully"
         }
-    } catch {
+    } catch (error) {
+        console.log({ error })
         return {
             status: "error",
             message: "Failed to create a course"

@@ -3,7 +3,7 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { courseCategoies, courseLevels, courseSchema, CourseSchemaType, courseStatus } from "@/lib/zodSchemas";
-import { ArrowLeft, Plus, SparkleIcon } from "lucide-react";
+import { ArrowLeft, Loader2, Plus, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { Resolver, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,9 +14,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import RichTextEditor from "@/components/rich-text-editor/Editor";
 import Uploader from "@/components/fileuploader/Uploader";
+import { useTransition } from "react";
+import { tryCatch } from "@/hooks/try-catch";
+import { CreateCourse } from "./actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CourseCreationPage() {
 
+    const [isPending, startTransition] = useTransition()
+    const router = useRouter()
     const courseResolver: Resolver<CourseSchemaType> = zodResolver(courseSchema as any);
     // 1. Define your form.
     const form = useForm<CourseSchemaType>({
@@ -36,8 +43,21 @@ export default function CourseCreationPage() {
     })
 
     function onSubmit(values: CourseSchemaType) {
+        startTransition(async () => {
+            const { data: result, error } = await tryCatch(CreateCourse(values))
+            if (error) {
+                toast.error("An unexpected error occurred")
+                return
 
-        console.log(values)
+            }
+            if (result.status === "success") {
+                toast.success(result.message)
+                form.reset()
+                router.push('/admin/courses')
+            } else if (result.status === "error") {
+                toast.error(result.message)
+            }
+        })
     }
 
     return (
@@ -262,8 +282,12 @@ export default function CourseCreationPage() {
                                         </FormItem>
                                     )
                                 } />
-                            <Button>
-                                Create Course <Plus className="size-4" />
+                            <Button type="submit" disabled={isPending}>
+                                {isPending ? (
+                                    <Loader2 className="animate-spin ml-1" />
+                                ) : (
+                                    <>Create Course <Plus className="size-4" /></>
+                                )}
                             </Button>
                         </form>
 
