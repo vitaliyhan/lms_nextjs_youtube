@@ -26,7 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { authClient } from "@/lib/auth-client"
-import { useSignOut } from "@/hooks/sign-out"
+import { useSignOut } from "@/hooks/use-signout"
 
 export function NavUser() {
   const { isMobile } = useSidebar()

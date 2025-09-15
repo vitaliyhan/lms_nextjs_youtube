@@ -6,8 +6,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 import { S3 } from "@/lib/s3-client";
 import { v4 as uuidv4 } from 'uuid';
 import arkjet, { detectBot, fixedWindow } from "@/lib/arkjet";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { requireAdmin } from "@/app/data/admin/require-admin";
 
 const fileUploadSchema = z.object(
     {
@@ -21,7 +20,7 @@ const fileUploadSchema = z.object(
 const aj = arkjet.withRule(detectBot({ mode: "LIVE", allow: [] })).withRule(fixedWindow({ mode: "LIVE", window: "1m", max: 5 }))
 
 export async function POST(request: Request) {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await requireAdmin()
     try {
         const decision = await aj.protect(request, { fingerprint: session?.user.id as string })
 

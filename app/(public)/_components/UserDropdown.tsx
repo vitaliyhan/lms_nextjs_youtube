@@ -24,7 +24,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { useSignOut } from "@/hooks/sign-out"
+import { useSignOut } from "@/hooks/use-signout"
 
 interface iAppProps {
     name: string;
