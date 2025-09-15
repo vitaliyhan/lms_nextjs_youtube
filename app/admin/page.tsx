@@ -2,7 +2,7 @@ import { ChartAreaInteractive } from "@/components/sidebar/chart-area-interactiv
 import { DataTable } from "@/components/sidebar/data-table"
 import { SectionCards } from "@/components/sidebar/section-cards"
 
-import data from "./data.json"
+const data = [] as any[]
 
 export default function AdminIndexPage() {
   return (
