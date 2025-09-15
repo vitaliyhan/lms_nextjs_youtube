@@ -3,13 +3,13 @@
 import { requireAdmin } from "@/app/data/admin/require-admin";
 import arkjet, { detectBot, fixedWindow } from "@/lib/arkjet";
 import { prisma } from "@/lib/db";
-import { ApiResonse } from "@/lib/types";
+import { ApiResponse } from "@/lib/types";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchemas";
 import { request } from "@arcjet/next";
 
 const aj = arkjet.withRule(detectBot({ mode: "LIVE", allow: [] })).withRule(fixedWindow({ mode: "LIVE", window: "1m", max: 5 }))
 
-export async function CreateCourse(values: CourseSchemaType): Promise<ApiResonse> {
+export async function CreateCourse(values: CourseSchemaType): Promise<ApiResponse> {
 
     const session = await requireAdmin()
     try {
