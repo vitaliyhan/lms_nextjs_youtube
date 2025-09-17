@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editCourse } from "../actions";
-import { AdminCourseSingularType } from "@/app/data/admin/admin-get-couse";
+import { AdminCourseSingularType } from "@/app/data/admin/admin-get-course";
 
 interface iAppProps {
     data: AdminCourseSingularType

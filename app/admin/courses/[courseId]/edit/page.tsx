@@ -1,7 +1,8 @@
-import { adminGetCourse } from "@/app/data/admin/admin-get-couse"
+import { adminGetCourse } from "@/app/data/admin/admin-get-course"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import EditFCourseForm from "./_components/EditCourseForm"
+import CourseStructure from "./_components/CourseStructure"
 
 type Params = Promise<{ courseId: string }>
 
@@ -20,7 +21,7 @@ export default async function EditRoute({ params }: { params: Params }) {
                         Basic info
                     </TabsTrigger>
                     <TabsTrigger value="course-structure">
-                        Couese structure
+                        Course structure
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="basic-info">
@@ -40,8 +41,19 @@ export default async function EditRoute({ params }: { params: Params }) {
 
                 </TabsContent>
                 <TabsContent value="course-structure">
-                    hi 2
-
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>
+                                Course structure
+                            </CardTitle>
+                            <CardDescription>
+                                Edit course structure of the course
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <CourseStructure data={data} />
+                        </CardContent>
+                    </Card>
                 </TabsContent>
             </Tabs>
         </div>
