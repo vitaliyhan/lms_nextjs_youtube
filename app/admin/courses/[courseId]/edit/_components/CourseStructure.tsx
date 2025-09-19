@@ -190,6 +190,11 @@ export default function CourseStructure({ data }: iAppProps) {
                                                                 </SortableItem>
                                                             ))}
                                                         </SortableContext>
+                                                        <div className="p-2">
+                                                            <Button className="w-full" variant={"outline"}>
+                                                                Create Lesson
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </CollapsibleContent>
 
