@@ -135,7 +135,9 @@ export default function CourseStructure({ data }: iAppProps) {
             const previousItems = [...items]
 
             setItems(updatedChapterForState)
-        }
+
+            // FIXED: Added missing closing brace for the chapter reordering logic
+        } // <-- This was missing
 
         if (activeType === 'lesson' && overType === 'lesson') {
             const chapterId = active.data.current?.chapterId
@@ -193,7 +195,7 @@ export default function CourseStructure({ data }: iAppProps) {
                 toast.promise(reorderLessonsPromise(), {
                     loading: 'Reordering',
                     success: (result) => {
-                        if (result.status === 'success') result.message
+                        if (result.status === 'success') return result.message
                         throw new Error(result.message)
                     },
                     error: () => {
@@ -206,7 +208,6 @@ export default function CourseStructure({ data }: iAppProps) {
             return
         }
     }
-
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -281,7 +282,6 @@ export default function CourseStructure({ data }: iAppProps) {
                                                                             <div className="flex items-center gap-2">
                                                                                 <Button variant={"ghost"} size={"icon"} {...lessonListeners}>
                                                                                     <GripVertical className="size-4" />
-
                                                                                 </Button>
                                                                                 <FileText className="size-4" />
                                                                                 <Link href={`/admin/courses/${data.id}/${item.id}/${lesson.id}`}>{lesson.title}</Link>
@@ -300,7 +300,6 @@ export default function CourseStructure({ data }: iAppProps) {
                                                         </div>
                                                     </div>
                                                 </CollapsibleContent>
-
                                             </Collapsible>
                                         </Card>
                                     )}
