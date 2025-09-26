@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
     DndContext,
+    DragEndEvent,
     DraggableSyntheticListeners,
     KeyboardSensor,
     PointerSensor,
@@ -30,7 +31,7 @@ import { ChevronDown, ChevronRight, FileText, GripVertical, Trash2 } from "lucid
 import Link from "next/link";
 import { ReactNode, useState } from "react";
 import { toast } from "sonner";
-import { reorderLessons } from "../actions";
+import { reorderChapters, reorderLessons } from "../actions";
 
 interface iAppProps {
     data: AdminCourseSingularType;
@@ -96,7 +97,7 @@ export default function CourseStructure({ data }: iAppProps) {
         );
     }
 
-    function handleDragEnd(event) {
+    function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
@@ -135,6 +136,29 @@ export default function CourseStructure({ data }: iAppProps) {
             const previousItems = [...items]
 
             setItems(updatedChapterForState)
+
+            if (courseId) {
+                const chaptersToUpdate = updatedChapterForState.map((chapter) => ({
+                    id: chapter.id,
+                    position: chapter.order
+                }))
+
+                const reorderPromice = () => reorderChapters(courseId, chaptersToUpdate)
+
+                toast.promise(reorderPromice(), {
+                    loading: "Reordering chapters",
+                    success: (result) => {
+                        if (result.status === "success") return result.message
+                        throw new Error(result.message)
+                    },
+                    error: () => {
+                        setItems(previousItems)
+                        return 'Failed to reorder chapters'
+                    }
+                }
+                )
+            }
+            return
 
             // FIXED: Added missing closing brace for the chapter reordering logic
         } // <-- This was missing
