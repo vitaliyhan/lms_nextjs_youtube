@@ -29,7 +29,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { ChevronDown, ChevronRight, FileText, GripVertical, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { reorderChapters, reorderLessons } from "../actions";
 
@@ -65,6 +65,24 @@ export default function CourseStructure({ data }: iAppProps) {
     const [items, setItems] = useState(initialItems);
 
     console.log(items)
+
+    useEffect(() => {
+        setItems((prevItems) => {
+            const updatedItems = data.chapter.map((chapter) => ({
+                id: chapter.id,
+                title: chapter.title,
+                order: chapter.position,
+                isOpen: prevItems.find((item) => item.id === chapter.id)?.isOpen ?? true, // default is true
+                lessons:
+                    chapter.lessons.map((lesson) => ({
+                        id: lesson.id,
+                        title: lesson.title,
+                        order: lesson.position,
+                    })),
+            })) || [];
+            return updatedItems
+        })
+    }, [data])
 
     function SortableItem({ children, id, className, data }: SortableItemProps) {
         const {
