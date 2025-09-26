@@ -8,7 +8,7 @@ import { useState, useTransition } from "react";
 import { deleteChapter } from "../actions";
 import { toast } from "sonner";
 
-export function DeleteChapter({ chapterId, courseId }: { chapterId: string, courseId: string, lessonId: string }) {
+export function DeleteChapter({ chapterId, courseId }: { chapterId: string, courseId: string }) {
     const [isOpen, setIsOpen] = useState(false)
     const [pending, startTransition] = useTransition()
 
